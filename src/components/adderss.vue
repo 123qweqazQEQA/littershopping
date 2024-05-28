@@ -6,7 +6,7 @@
   left-arrow
   @click-left="onClickLeft"
 />
-    <van-addressd-edit
+    <van-address-edit
   :area-list="areaList"
   show-delete
   show-set-default
@@ -30,6 +30,7 @@ import { useRouter } from 'vue-router';
  import HomeTabber from './HomeTabber.vue';
  import { areaList } from '@vant/area-data';
  import { showNotify } from 'vant';
+ const onClickLeft = () => history.back();
 let addressd =reactive({
   name:"",
   tel:"",
@@ -44,7 +45,7 @@ const router = useRouter()
       addressd.name=a.name
       addressd.tel=a.tel
       addressd.area=a.city
-      addressd.detail=a.addressdDetail
+      addressd.detail=a.addressDetail
       console.log( a)
       console.log(addressd)
       address.addersscreate(addressd).then(res=>{
@@ -60,10 +61,6 @@ const router = useRouter()
   detail:"",
      }
    }
-    
-    const onClickLeft = () => history.back();
-  
-
 </script>
 
 <style scoped>

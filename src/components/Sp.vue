@@ -1,6 +1,6 @@
 <template>
     <div>
-
+        <van-config-provider :theme-vars="themeVars" title-class="aaa" >
         <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
             <van-swipe-item v-for="item in imagedata" :key="item.id">
                 <img :src=item.img height="150px" width="100%">
@@ -20,12 +20,9 @@
 
 
 
-                        <van-card v-for="(item3, index3) in shoppinglist" :key="item3.id" :title="item3.name"
-                            :thumb=item3.image>
-                            <template #tags>
-                                <van-tag plain type="primary">{{ item3.sell_point }}</van-tag>
-
-                            </template>
+                        <van-card v-for="(item3, index3) in shoppinglist" :key="item3.id" :title="item3.name"  :price="item3.price"
+                            :thumb=item3.image    :desc=" item3.sell_point ">
+  
                             <template #footer>
                                 <van-button size="mini" @click="shoppingdetail(item3.id)">详情</van-button>
                                 <van-button size="mini" @click="cuanc(item3)" v-show="xian(item3)" >加入购物车</van-button>
@@ -75,7 +72,7 @@
         <br>
 
         <HomeTabberVue></HomeTabberVue>
-
+    </van-config-provider>
     </div>
 
 </template>
@@ -95,7 +92,15 @@ const reload = inject("reload")
  function sx(){
     reload()
  }
-
+ const themeVars = reactive({
+      rateIconFullColor: '#07c160',
+      sliderBarHeight: '4px',
+      sliderButtonWidth: '20px',
+      sliderButtonHeight: '20px',
+      sliderActiveBackground: '#07c160',
+      buttonPrimaryBackground: '#07c160',
+      buttonPrimaryBorderColor: '#07c160',
+    });
 const router = useRouter()
 let cuan = reactive([])
 const tot = ref(0)
@@ -227,6 +232,7 @@ function cuanc(x) {
     sx()
 }
 function xian(a) {
+    if(JSON.parse(window.localStorage.getItem("shopping"))){
     let i = 0
     let w = JSON.parse(window.localStorage.getItem("shopping"))
  for(let c=0;c<w.length;c++){
@@ -240,7 +246,9 @@ function xian(a) {
         return true
     }
 
-
+    }else{
+        return true
+    }
 }
 function quxiao(a){
     console.log(a)
@@ -269,4 +277,32 @@ getimage(),
 
 </script>
 
-<style scoped></style>
+<style scoped>
+
+ 
+ .aaa{
+                height: 80rpx;
+                width: 300rpx;
+                 border: 1px solid black;
+                display: -webkit-box;
+                overflow: hidden;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2; 
+                
+            }
+/* 金额/虚拟价格 - 上浮 */
+.van-card__bottom{
+  padding-bottom: 80px!important;
+}
+ 
+/* 调整图像大小(最好用百分比) */
+.van-card__img{
+  width: 55%!important;
+  height: 55%!important;
+}
+ 
+/* 调整左侧图像容器 - 使其贴近 */
+.van-card__thumb{
+  margin-right:-44rpx!important;
+}
+</style>

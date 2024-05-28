@@ -10,8 +10,8 @@
                 <van-tag plain type="primary">标签</van-tag>
             </template>
             <template #footer>
-                <van-stepper v-model="count[index2]" theme="round" button-size="22" disable-input min="-1" @minus="x(i,count[index2])"
-                    @plus="x" />
+                <van-stepper v-model="count[index2]" theme="round" button-size="22" disable-input min="-1" @minus="x(i,count[index2],index)"
+                    @plus="add(index2)" />
             </template>
         </van-card>
         <van-submit-bar button-text="提交订单" @submit="submit" />
@@ -61,7 +61,8 @@ function a() {
         shoppinglist=null
     }
 }
-function x(ax,b) {
+function x(ax,b,index) {
+    count[index]--
   console.log(ax)
     console.log(b)
     if(b==0){
@@ -73,8 +74,9 @@ function x(ax,b) {
      console.log(shoppinglist)
            }
         })
+        sx()
     }
-    sx()
+   
 }
 
 function onClickLeft() {
@@ -118,6 +120,9 @@ function submit() {
     })
     shoppinglist=""
     window.localStorage.removeItem("shopping")
+}
+function add(index){
+ count[index]++
 }
 a()
 
